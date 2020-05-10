@@ -10,6 +10,10 @@
   font-size: 16px;
 }
 
+body{
+  overflow: hidden; /* Adicionado para esconder a scrollbar ---------------------------------------------- */
+}
+
 :focus { outline: none; }
 button:focus { outline: none; }
 
@@ -338,7 +342,7 @@ form#create > div {
 
 main form#create div section {
   height: 100%;
-  overflow: auto;
+  overflow: hidden;  /* Alterado para esconder a scrollbar ----------------------------------------------*/
 
   scroll-snap-stop: always;
   scroll-snap-align: center;
@@ -963,3 +967,22 @@ main#grade .table-settings p {
 #green-bar { background-color: #41E5AA; }
 
 
+/* SCROLLBAR */
+::-webkit-scrollbar{ /* campo onde percorre a barra */
+    width: 8px;
+    height: 8px;
+    background-color: transparent;
+
+}
+ 
+::-webkit-scrollbar-track { /* barra inteira */
+    -webkit-box-shadow: inset 0 0 0px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb { /* barrinha que se desloca kkk */
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    background-color: gray; /* campo que altera a cor da barrinha que se desloca -----------*/
+}
+/* ------------ */
