@@ -6,7 +6,14 @@ module.exports = (sequelize, DataType) => {
             autoIncrement: true
         },
         schools_id:{
-            type: DataType.STRING(100)
+            type: DataType.STRING(100),
+            references: {
+                model: {
+                  tableName: 'schools',
+                  schema: 'aBordo'
+                },
+                key: 'id'
+            }
         },
         code:{
             type: DataType.STRING(10)
@@ -34,7 +41,7 @@ module.exports = (sequelize, DataType) => {
     })
 
     Classe.associate = (models) =>{
-        Classe.belongsTo(models.School,{
+        Classe.(models.School,{
             foreignKey: 'id',
             as: 'school'
         })

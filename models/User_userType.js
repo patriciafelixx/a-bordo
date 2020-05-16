@@ -6,10 +6,24 @@ module.exports = (sequelize, DataType) => {
             autoIncrement: true
         },
         users_id:{
-            type: DataType.INTEGER
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'users',
+                  schema: 'aBordo'
+                },
+                key: 'id'
+            }
         },
         userTypes_id:{
-            type: DataType.INTEGER
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'usersTypes',
+                  schema: 'aBordo'
+                },
+                key: 'id'
+            }
         }
     },{
         tableName: 'users_userTypes',
@@ -17,11 +31,11 @@ module.exports = (sequelize, DataType) => {
     })
 
     User_userType.associate = (models) =>{
-        User_userType.belongsToMany(models.User, {
+        User_userType.(models.User, {
             foreignKey: 'id',
             as: 'user'
         })
-        User_userType.belongsTo(models.UserType, {
+        User_userType.(models.UserType, {
             foreignKey: 'id',
             as: 'userType'
         })

@@ -6,7 +6,14 @@ module.exports = (sequelize, DataType) => {
             autoIncrement: true
         },
         lessons_id:{
-            type: DataType.INTEGER
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'lessons',
+                  schema: 'aBordo'
+                },
+                key: 'id'
+            }
         },
         evaluation_number:{
             type: DataType.INTEGER
@@ -28,7 +35,7 @@ module.exports = (sequelize, DataType) => {
     })
 
     Evaluation.associate = (models) =>{
-        Evaluation.belongsTo(models.Lesson, {
+        Evaluation.(models.Lesson, {
             foreignKey: 'id',
             as: 'lesson'
         })

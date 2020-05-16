@@ -6,10 +6,24 @@ module.exports = (sequelize, DataType) => {
             autoIncrement: true
         },
         classes_id:{
-            type: DataType.INTEGER
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'classes',
+                  schema: 'aBordo'
+                },
+                key: 'id'
+            }
         },
         subjects_id:{
-            type: DataType.INTEGER
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'subjects',
+                  schema: 'aBordo'
+                },
+                key: 'id'
+            }
         },
         date:{
             type: DataType.DATEONLY
@@ -28,11 +42,11 @@ module.exports = (sequelize, DataType) => {
     })
 
     Lesson.associate = (models) =>{
-        Lesson.belongsToMany(models.Classe, {
+        Lesson.(models.Classe, {
             foreignKey: 'id',
             as: 'classe'
         })
-        Lesson.belongsToMany(models.Subject, {
+        Lesson.(models.Subject, {
             foreignKey: 'id',
             as: 'subject'
         })

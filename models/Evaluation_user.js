@@ -6,10 +6,24 @@ module.exports = (sequelize, DataType) => {
             autoIncrement: true
         },
         evaluations_id:{
-            type: DataType.INTEGER
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'evaluations',
+                  schema: 'aBordo'
+                },
+                key: 'id'
+            }
         },
         users_id:{
-            type: DataType.INTEGER
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'users',
+                  schema: 'aBordo'
+                },
+                key: 'id'
+            }
         },
         evaluated:{
             type: DataType.TEXT('tiny')
@@ -23,11 +37,11 @@ module.exports = (sequelize, DataType) => {
     })
     
     Evaluation_user.associate = (models) =>{
-        Evaluation_user.belongsTo(models.Evaluation, {
+        Evaluation_user.(models.Evaluation, {
             foreignKey: 'id',
             as: 'evaluation'
         })
-        Evaluation_user.belongsTo(models.User, {
+        Evaluation_user.(models.User, {
             foreignKey: 'id',
             as: 'user'
         })

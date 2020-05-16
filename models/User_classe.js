@@ -6,13 +6,34 @@ module.exports = (sequelize, DataType) => {
             autoIncrement: true
         },
         users_id:{
-            type: DataType.INTEGER
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'users',
+                  schema: 'aBordo'
+                },
+                key: 'id'
+            }
         },
         classes_id:{
-            type: DataType.INTEGER
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'classes',
+                  schema: 'aBordo'
+                },
+                key: 'id'
+            }
         },
         schools_id:{
-            type: DataType.INTEGER
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'schools',
+                  schema: 'aBordo'
+                },
+                key: 'id'
+            }
         },
         student_number:{
             type: DataType.INTEGER,
@@ -23,15 +44,15 @@ module.exports = (sequelize, DataType) => {
     })
 
     User_classe.associate = (models) =>{
-        User_classe.belongsToMany(models.User, {
+        User_classe.(models.User, {
             foreignKey: 'id',
             as: 'user'
         })
-        User_classe.belongsToMany(models.Classe, {
+        User_classe.(models.Classe, {
             foreignKey: 'id',
             as: 'classe'
         })
-        User_classe.belongsTo(models.School, {
+        User_classe.(models.School, {
             foreignKey: 'id',
             as: 'school'
         })
