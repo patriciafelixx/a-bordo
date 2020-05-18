@@ -1,48 +1,51 @@
-module.exports = (sequelize, DataTypes) => {
-    let Evaluation_User = sequelize.define(
-        "Evaluation_User",
-        {
-            evaluated: {
-                type: DataTypes.TINYINT,
-                allowNull: false
-            },
-            grade: {
-                type: DataTypes.DECIMAL(5, 2),
-                allowNull: false
-            },
-            evaluations_id: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                allowNull: false,
-                // references: {
-                //     model: "evaluations",
-                //     key: "id",
-                // }
-            },
-            users_id: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                allowNull: false,
-                // references: {
-                //     model: "users",
-                //     key: "id",
-                // }
+module.exports = (sequelize, DataType) => {
+    const Evaluation_user = sequelize.define('Evaluation_user', {
+        id:{
+            type: DataType.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        evaluations_id:{
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'evaluations',
+                  schema: 'aBordo'
+                },
+                key: 'id'
             }
         },
-        {
-            tableName: "evaluations_users",
-            timestamps: false,
+        users_id:{
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'users',
+                  schema: 'aBordo'
+                },
+                key: 'id'
+            }
+        },
+        evaluated:{
+            type: DataType.TEXT('tiny')
+        },
+        grade:{
+            type: DataType.FLOAT
         }
-    );
+    },{
+        tableName: 'evaluations_users',
+        timestamps: false
+    })
+    
+    Evaluation_user.associate = (models) =>{
+        Evaluation_user.(models.Evaluation, {
+            foreignKey: 'id',
+            as: 'evaluation'
+        })
+        Evaluation_user.(models.User, {
+            foreignKey: 'id',
+            as: 'user'
+        })
+    }
 
-    Evaluation_User.associate = (models) => {
-        Evaluation_User.belongsTo(models.User, {
-            as: "users",
-            foreignKey: "users_id"
-        });
-        Evaluation_User.belongsTo(models.Evaluation, {
-            as: "evaluations",
-            foreignKey: "evaluations_id"
-        });
-    };
-
-    return Evaluation_User;
-};
+    return Evaluation_user
+}

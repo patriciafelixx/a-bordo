@@ -1,29 +1,45 @@
-module.exports = (sequelize, DataTypes) => {
-    let User_School = sequelize.define(
-        "User_School",
-        {
-            users_id: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                allowNull: false,
-                // references: {
-                //     model: "users",
-                //     key: "id",
-                // }
-            },
-            schools_id: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                allowNull: false,
-                // references: {
-                //     model: "schools",
-                //     key: "id",
-                // }
+module.exports = (sequelize, DataType) => {
+    const User_school = sequelize.define('User_school', {
+        id:{
+            type: DataType.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        users_id:{
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'users',
+                  schema: 'aBordo'
+                },
+                key: 'id'
             }
         },
-        {
-            tableName: "users_schools",
-            timestamps: false,
+        schools_id:{
+            type: DataType.INTEGER,
+            references: {
+                model: {
+                  tableName: 'schools',
+                  schema: 'aBordo'
+                },
+                key: 'id'
+            }
         }
-    );
+    },{
+        tableName: 'users_schools',
+        timestamps: false
+    })
 
-    return User_School;
-};
+    User_school.associate = (models) =>{
+        User_school.(models.User, {
+            foreignKey: 'id',
+            as: 'user'
+        })
+        User_school.(models.School, {
+            foreignKey: 'id',
+            as: 'school'
+        })
+    }
+    
+    return User_school
+}
