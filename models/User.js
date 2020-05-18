@@ -1,30 +1,40 @@
-module.exports = (sequelize, DataType) => {
-    const User = sequelize.define('User', {
-        id:{
-            type: DataType.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
+module.exports = (sequelize, DataTypes) => {
+    let User = sequelize.define(
+        "User",
+        {
+            forename: {
+                type: DataTypes.STRING(50),
+                allowNull: false
+            },
+            surname: {
+                type: DataTypes.STRING(50),
+                allowNull: false
+            },
+            phone: DataTypes.STRING(17),
+            email: {
+                type: DataTypes.STRING(50),
+                allowNull: false,
+                unique: true
+            },
+            password: {
+                type: DataTypes.STRING(256),
+                allowNull: false
+            },
+            picture: DataTypes.BLOB
         },
-        forename:{
-            type: DataType.STRING(100)
-        },
-        surname:{
-            type: DataType.STRING(100)
-        },
-        email:{
-            type: DataType.STRING(100)
-        },
-        phone:{
-            type: DataType.INTEGER(13),
-            allowNull: true
-        },
-        password:{
-            type: DataType.STRING
-        },
-        picture: DataType.BLOB
-    },{
-        timestamps: false
-    })
+        {
+            tableName: "users",
+            timestamps: false,
+        }
+    );
 
-    return User
-}
+    User.associate = (models) => {
+        User.belongsToMany(models.Category, {
+            as: "categories",
+            foreignKey: "users_id",
+            through: models.User_Category
+        });
+    };
+
+    return User;
+};

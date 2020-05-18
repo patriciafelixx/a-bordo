@@ -1,47 +1,32 @@
-module.exports = (sequelize, DataType) => {
-    const Attendance = sequelize.define('Attendance', {
-        id:{
-            type: DataType.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        users_id:{
-            type: DataType.INTEGER,
-            references: {
-                model: {
-                  tableName: 'users',
-                  schema: 'aBordo'
-                },
-                key: 'id'
+module.exports = (sequelize, DataTypes) => {
+    let Attendance = sequelize.define(
+        "Attendance",
+        {
+            mark: {
+                type: DataTypes.STRING(10),
+                allowNull: false
+            },
+            period: {
+                type: DataTypes.INTEGER(2),
+                allowNull: false
+            },
+            classes_lessons_id: {
+                type: DataTypes.INTEGER.UNSIGNED,
+                allowNull: false
             }
         },
-        lessons_id:{
-            type: DataType.INTEGER,
-            references: {
-                model: {
-                  tableName: 'lessons',
-                  schema: 'aBordo'
-                },
-                key: 'id'
-            }
-        },
-        type:{
-            type: DataType.STRING(45)
+        {
+            tableName: "attendances",
+            timestamps: false,
         }
-    },{
-        timestamps: false
-    })
-    
-    Attendance.associate = (models) => {
-        Attendance.(models.User,{
-            foreignKey: 'id',
-            as: 'user'
-        })
-        Attendance.(models.Lesson,{
-            foreignKey: 'id',
-            as: 'lesson'
-        })
-    } 
+    );
 
-    return Attendance
+    Attendance.associate = (models) => {
+        Attendance.belongsTo(models.Class_Lesson, {
+            as: "classes_lessons",
+            foreignKey: "classes_lessons_id"
+        });
+    };
+
+    return Attendance;
 }

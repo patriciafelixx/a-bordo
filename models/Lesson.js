@@ -1,56 +1,41 @@
-module.exports = (sequelize, DataType) => {
-    const Lesson = sequelize.define('Lesson', {
-        id:{
-            type: DataType.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        classes_id:{
-            type: DataType.INTEGER,
-            references: {
-                model: {
-                  tableName: 'classes',
-                  schema: 'aBordo'
-                },
-                key: 'id'
+module.exports = (sequelize, DataTypes) => {
+    let Lesson = sequelize.define(
+        "Lesson",
+        {
+            academic_term: {
+                type: DataTypes.INTEGER(1),
+                allowNull: false
+            },
+            date: {
+                type: DataTypes.DATEONLY,
+                allowNull: false
+            },
+            periods: {
+                type: DataTypes.INTEGER(2),
+                allowNull: false
+            },
+            observations: DataTypes.STRING,
+            evaluation_day: {
+                type: DataTypes.TINYINT,
+                allowNull: false
             }
         },
-        subjects_id:{
-            type: DataType.INTEGER,
-            references: {
-                model: {
-                  tableName: 'subjects',
-                  schema: 'aBordo'
-                },
-                key: 'id'
-            }
-        },
-        date:{
-            type: DataType.DATEONLY
-        },
-        academic_term:{
-            type: DataType.INTEGER
-        },
-        observations:{
-            type: DataType.STRING
-        },
-        evaluation_day:{
-            type: DataType.TEXT('tiny')
+        {
+            tableName: "lessons",
+            timestamps: false,
         }
-    },{
-        timestamps: false
-    })
+    );
 
-    Lesson.associate = (models) =>{
-        Lesson.(models.Classe, {
-            foreignKey: 'id',
-            as: 'classe'
-        })
-        Lesson.(models.Subject, {
-            foreignKey: 'id',
-            as: 'subject'
-        })
-    }
-    
-    return Lesson
-}
+    Lesson.associate = (models) => {
+        Lesson.hasMany(models.Class_Lesson, {
+            as: "classes_lessons"
+        });
+        Lesson.belongsToMany(models.User_Class, {
+            as: "users_classes",
+            foreignKey: "lessons_id",
+            through: models.Class_Lesson
+        });
+    };
+
+    return Lesson;
+};
