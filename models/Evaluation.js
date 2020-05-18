@@ -1,45 +1,57 @@
-module.exports = (sequelize, DataType) => {
-    const Evaluation = sequelize.define('Evaluation', {
-        id:{
-            type: DataType.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        lessons_id:{
-            type: DataType.INTEGER,
-            references: {
-                model: {
-                  tableName: 'lessons',
-                  schema: 'aBordo'
-                },
-                key: 'id'
+
+module.exports = (sequelize, DataTypes) => {
+    let Evaluation = sequelize.define(
+        "Evaluation",
+        {
+            evaluation_number: {
+                type: DataTypes.INTEGER(1),
+                allowNull: false
+            },
+            max_grade: {
+                type: DataTypes.DECIMAL(5, 2),
+                allowNull: false
+            },
+            title: {
+                type: DataTypes.STRING(50),
+                allowNull: false
+            },
+            color: {
+                type: DataTypes.STRING(7),
+                allowNull: false
+            },
+            type: {
+                type: DataTypes.STRING(20),
+                allowNull: false
+            },
+            lessons_id: {
+                type: DataTypes.INTEGER.UNSIGNED,
+                allowNull: false,
+                // references: {
+                //     model: "lessons",
+                //     key: "id",
+                // }
             }
         },
-        evaluation_number:{
-            type: DataType.INTEGER
-        },
-        max_grade:{
-            type: DataType.FLOAT
-        },
-        title:{
-            type: DataType.STRING(100)
-        },
-        color:{
-            type: DataType.STRING(45)
-        },
-        type:{
-            type: DataType.STRING(45)
+        {
+            tableName: "evaluations",
+            timestamps: false,
         }
-    },{
-        timestamps: false
-    })
+    );
 
-    Evaluation.associate = (models) =>{
-        Evaluation.(models.Lesson, {
-            foreignKey: 'id',
-            as: 'lesson'
-        })
-    }
-    
-    return Evaluation
-}
+    Evaluation.associate = (models) => {
+        Evaluation.belongsToMany(models.User, {
+            as: "users",
+            foreignKey: "evaluations_id",
+            through: models.Evaluation_User
+        });
+        Evaluation.hasMany(models.Evaluation_User, {
+            as: "student_grades"
+        });
+        Evaluation.belongsTo(models.Lesson, {
+            as: "lessons",
+            foreignKey: "lessons_id"
+        });
+    };
+
+    return Evaluation;
+};

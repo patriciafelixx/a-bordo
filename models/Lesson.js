@@ -1,56 +1,64 @@
-module.exports = (sequelize, DataType) => {
-    const Lesson = sequelize.define('Lesson', {
-        id:{
-            type: DataType.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        classes_id:{
-            type: DataType.INTEGER,
-            references: {
-                model: {
-                  tableName: 'classes',
-                  schema: 'aBordo'
-                },
-                key: 'id'
+module.exports = (sequelize, DataTypes) => {
+    let Lesson = sequelize.define(
+        "Lesson",
+        {
+            date: {
+                type: DataTypes.DATEONLY,
+                allowNull: false
+            },
+            academic_term: {
+                type: DataTypes.INTEGER(1),
+                allowNull: false
+            },
+            observations: DataTypes.STRING,
+            evaluation_day: {
+                type: DataTypes.TINYINT,
+                allowNull: false
+            },
+            classes_id: {
+                type: DataTypes.INTEGER.UNSIGNED,
+                allowNull: false,
+                // references: {
+                //     model: "classes",
+                //     key: "id",
+                // }
+            },
+            subjects_id: {
+                type: DataTypes.INTEGER.UNSIGNED,
+                allowNull: false,
+                // references: {
+                //     model: "subjects",
+                //     key: "id",
+                // }
             }
         },
-        subjects_id:{
-            type: DataType.INTEGER,
-            references: {
-                model: {
-                  tableName: 'subjects',
-                  schema: 'aBordo'
-                },
-                key: 'id'
-            }
-        },
-        date:{
-            type: DataType.DATEONLY
-        },
-        academic_term:{
-            type: DataType.INTEGER
-        },
-        observations:{
-            type: DataType.STRING
-        },
-        evaluation_day:{
-            type: DataType.TEXT('tiny')
+        {
+            tableName: "lessons",
+            timestamps: false,
         }
-    },{
-        timestamps: false
-    })
+    );
 
-    Lesson.associate = (models) =>{
-        Lesson.(models.Classe, {
-            foreignKey: 'id',
-            as: 'classe'
-        })
-        Lesson.(models.Subject, {
-            foreignKey: 'id',
-            as: 'subject'
-        })
-    }
-    
-    return Lesson
-}
+    Lesson.associate = (models) => {
+        Lesson.belongsToMany(models.User, {
+            as: "users",
+            foreignKey: "lessons_id",
+            through: models.Attendance
+        });
+        Lesson.hasMany(models.Attendance, {
+            as: "attendances"
+        });
+        Lesson.hasMany(models.Evaluation, {
+            as: "evaluations"
+        });
+        Lesson.belongsTo(models.Subject, {
+            as: "subjects",
+            foreignKey: "subjects_id"
+        });
+        Lesson.belongsTo(models.Class, {
+            as: "classes",
+            foreignKey: "classes_id"
+        });
+    };
+
+    return Lesson;
+};

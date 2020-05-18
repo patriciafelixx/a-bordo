@@ -3,7 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const methodOverride = require("method-override");
+let methodOverride = require("method-override");
+let session = require("express-session");
+let bodyParser = require("body-parser");
 
 var IndexRouter = require('./routes/IndexRouter');
 // var usersRouter = require('./routes/users');
@@ -20,6 +22,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride("_method"));
+app.use(session({ secret: "abordo" }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', IndexRouter);
 // app.use('/usuario', usersRouter);

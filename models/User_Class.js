@@ -1,11 +1,9 @@
-
 module.exports = (sequelize, DataTypes) => {
-    let Attendance = sequelize.define(
-        "Attendance",
+    let User_Class = sequelize.define(
+        "User_Class",
         {
-            type: {
-                type: DataTypes.STRING(8),
-                allowNull: false
+            student_number: {
+                type: DataTypes.INTEGER
             },
             users_id: {
                 type: DataTypes.INTEGER.UNSIGNED,
@@ -15,32 +13,31 @@ module.exports = (sequelize, DataTypes) => {
                 //     key: "id",
                 // }
             },
-            lessons_id: {
+            classes_id: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 allowNull: false,
                 // references: {
-                //     model: "lessons",
+                //     model: "userTypes",
                 //     key: "id",
                 // }
             }
         },
         {
-            tableName: "attendances",
+            tableName: "users_userTypes",
             timestamps: false,
         }
     );
 
-    Attendance.associate = (models) => {
-        Attendance.belongsTo(models.User, {
+    User_Class.associate = (models) => {
+        User_Class.belongsTo(models.User, {
             as: "users",
             foreignKey: "users_id"
         });
-        Attendance.belongsTo(models.Lesson, {
-            as: "lessons",
-            foreignKey: "lessons_id"
+        User_Class.belongsTo(models.Class, {
+            as: "classes",
+            foreignKey: "classes_id"
         });
     };
 
-    return Attendance;
+    return User_Class;
 };
-
