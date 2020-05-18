@@ -30,18 +30,7 @@ module.exports = (sequelize, DataType) => {
         }
     },{
         timestamps: false
-    })
-    
-    Attendance.associate = (models) => {
-        Attendance.(models.User,{
-            foreignKey: 'id',
-            as: 'user'
-        })
-        Attendance.(models.Lesson,{
-            foreignKey: 'id',
-            as: 'lesson'
-        })
-    } 
+    }) 
 
     return Attendance
 }
