@@ -1,16 +1,26 @@
-module.exports = (sequelize, DataType) => {
-    const UserType = sequelize.define('UserType', {
-        id:{
-            type: DataType.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
+module.exports = (sequelize, DataTypes) => {
+    let UserType = sequelize.define(
+        "UserType",
+        {
+            type: {
+                type: DataTypes.STRING(20),
+                allowNull: false,
+                unique: true
+            }
         },
-        type:{
-            type: DataType.STRING(45)
+        {
+            tableName: "userTypes",
+            timestamps: false,
         }
-    },{
-        timestamps: false
-    })
+    );
 
-    return UserType
-}
+    UserType.associate = (models) => {
+        UserType.belongsToMany(models.User, {
+            as: "users",
+            foreignKey: "userTypes_id",
+            through: models.User_UserType
+        });
+    };
+
+    return UserType;
+};

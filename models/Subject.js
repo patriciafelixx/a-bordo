@@ -1,16 +1,35 @@
-module.exports = (sequelize, DataType) => {
-    const Subject = sequelize.define('Subject', {
-        id:{
-            type: DataType.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
+
+module.exports = (sequelize, DataTypes) => {
+    let Subject = sequelize.define(
+        "Subject",
+        {
+            name: {
+                type: DataTypes.STRING(50),
+                allowNull: false,
+                unique: true
+            }
         },
-        name:{
-            type: DataType.STRING(100)
+        {
+            tableName: "subjects",
+            timestamps: false,
         }
-    },{
-        timestamps: false
-    })
-    
-    return Subject
-}
+    );
+
+    Subject.associate = (models) => {
+        Subject.belongsToMany(models.User, {
+            as: "users",
+            foreignKey: "subjects_id",
+            through: models.User_Subject
+        });
+        Subject.belongsToMany(models.Class, {
+            as: "classes",
+            foreignKey: "subjects_id",
+            through: models.Lesson
+        });
+        Subject.hasMany(models.Lesson, {
+            as: "lessons"
+        });
+    };
+
+    return Subject;
+};
