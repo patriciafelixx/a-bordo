@@ -1,3 +1,4 @@
+
 module.exports = (sequelize, DataTypes) => {
     let Evaluation = sequelize.define(
         "Evaluation",

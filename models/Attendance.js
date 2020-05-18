@@ -1,3 +1,4 @@
+
 module.exports = (sequelize, DataTypes) => {
     let Attendance = sequelize.define(
         "Attendance",
@@ -42,3 +43,4 @@ module.exports = (sequelize, DataTypes) => {
 
     return Attendance;
 };
+
