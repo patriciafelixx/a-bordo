@@ -7,23 +7,23 @@ module.exports = (sequelize, DataType) => {
         },
         users_id:{
             type: DataType.INTEGER,
-            references: {
-                model: {
-                  tableName: 'users',
-                  schema: 'aBordo'
-                },
-                key: 'id'
-            }
+            // references: {
+            //     model: {
+            //       tableName: 'users',
+            //       schema: 'aBordo'
+            //     },
+            //     key: 'id'
+            // }
         },
         lessons_id:{
             type: DataType.INTEGER,
-            references: {
-                model: {
-                  tableName: 'lessons',
-                  schema: 'aBordo'
-                },
-                key: 'id'
-            }
+            // references: {
+            //     model: {
+            //       tableName: 'lessons',
+            //       schema: 'aBordo'
+            //     },
+            //     key: 'id'
+            // }
         },
         type:{
             type: DataType.STRING(45)
