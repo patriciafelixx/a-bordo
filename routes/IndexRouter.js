@@ -1,34 +1,41 @@
 const express = require('express');
 const router = express.Router();
+const multer = require("multer");
+let upload = multer({ dest: 'uploads/' });
 
 const IndexController = require("../controllers/IndexController");
 const VerifyLoggedInUser = require("../middlewares/VerifyLoggedInUser");
 
-router.get('/', IndexController.showLogin);
-router.get('/login', IndexController.showLogin);
+// ON LOGIN PAGE
+router.get('/', IndexController.renderLogin);
+router.get('/login', IndexController.renderLogin);
 router.post("/login", IndexController.login);
+router.get("/cadastrar", IndexController.redirectToRegistrationForm);
 
-router.get("/professor/home", VerifyLoggedInUser, IndexController.showTeacherHome);
-router.get("/responsavel/home", VerifyLoggedInUser, IndexController.showGuardianHome);
+router.get("/professor/cadastrar", IndexController.renderTeacherRegistrationForm)
+router.post("/professor/cadastrar", upload.single("picture"), IndexController.registerTeacher);
+router.get("/responsavel/cadastrar", IndexController.renderGuardianRegistrationForm)
+router.post("/responsavel/cadastrar", upload.single("picture"), IndexController.registerGuardian);
 
-router.get("/cadastrar", IndexController.showRegistrationForm);
-router.post("/professor/cadastrar", IndexController.registerTeacher);
-router.post("/responsavel/cadastrar", IndexController.registerGuardian);
+router.get("/professor/home", VerifyLoggedInUser, IndexController.renderTeacherHome);
+router.get("/responsavel/home", VerifyLoggedInUser, IndexController.renderGuardianHome);
 
-router.get("/professor/atualizar", IndexController.showTeacherUpdateForm);
-router.put("/professor/atualizar", IndexController.updateTeacher);
-router.get("/responsavel/atualizar", IndexController.showGuardianUpdateForm);
-router.put("/responsavel/atualizar", IndexController.updateGuardian);
+
+
+router.get("/professor/atualizar", IndexController.renderTeacherUpdateForm);
+router.put("/professor/atualizar", upload.single("picture"), IndexController.updateTeacher);
+router.get("/responsavel/atualizar", IndexController.renderGuardianUpdateForm);
+router.put("/responsavel/atualizar", upload.single("picture"), IndexController.updateGuardian);
 
 router.delete("/professor/deletar", IndexController.deleteTeacher);
 router.delete("/responsavel/deletar", IndexController.deleteGuardian);
 
-router.get("/fazer-chamada", IndexController.showAttendanceSheet);
+router.get("/fazer-chamada", IndexController.renderAttendanceSheet);
 router.post("/fazer-chamada", IndexController.recordAttendances);
 
-router.get('/lancar-notas', IndexController.showGradeBook);
+router.get('/lancar-notas', IndexController.renderGradeBook);
 router.post('/lancar-notas', IndexController.recordGrades);
 
-router.get('/diario-de-classe', IndexController.showRecordBook);
+router.get('/diario-de-classe', IndexController.renderRecordBook);
 
 module.exports = router;
