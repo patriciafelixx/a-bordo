@@ -41,7 +41,7 @@ module.exports = (sequelize, DataType) => {
     })
 
     Classe.associate = (models) =>{
-        Classe.(models.School,{
+        Classe.belongsTo(models.School,{
             foreignKey: 'id',
             as: 'school'
         })

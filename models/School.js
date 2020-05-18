@@ -1,29 +1,39 @@
-module.exports = (sequelize, DataType) => {
-    const School = sequelize.define('School', {
-        id:{
-            type: DataType.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
+module.exports = (sequelize, DataTypes) => {
+    let School = sequelize.define(
+        "School",
+        {
+            name: {
+                type: DataTypes.STRING(70),
+                allowNull: false
+            },
+            passing_grade: {
+                type: DataTypes.DECIMAL(4, 2),
+                allowNull: false
+            },
+            academic_terms: {
+                type: DataTypes.INTEGER(1),
+                allowNull: false
+            },
+            state: {
+                type: DataTypes.STRING(2),
+                allowNull: false
+            },
+            municipality: {
+                type: DataTypes.STRING(50),
+                allowNull: false
+            },
         },
-        state:{
-            type: DataType.STRING(2)
-        },
-        municipality:{
-            type: DataType.STRING(100)
-        },
-        name:{
-            type: DataType.STRING(100)
-        },
-        passing_grade:{
-            type: DataType.FLOAT,
-            allowNull: true
-        },
-        academic_terms:{
-            type: DataType.INTEGER
+        {
+            tableName: "schools",
+            timestamps: false,
         }
-    },{
-        timestamps: false
-    })
-    
-    return School
-}
+    );
+
+    School.associate = (models) => {
+        School.hasMany(models.Class, {
+            as: "classes"
+        });
+    };
+
+    return School;
+};

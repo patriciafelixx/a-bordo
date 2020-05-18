@@ -1,45 +1,41 @@
-module.exports = (sequelize, DataType) => {
-    const Evaluation = sequelize.define('Evaluation', {
-        id:{
-            type: DataType.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        lessons_id:{
-            type: DataType.INTEGER,
-            references: {
-                model: {
-                  tableName: 'lessons',
-                  schema: 'aBordo'
-                },
-                key: 'id'
+module.exports = (sequelize, DataTypes) => {
+    let Evaluation = sequelize.define(
+        "Evaluation",
+        {
+            max_grade: {
+                type: DataTypes.DECIMAL(5, 2),
+                allowNull: false
+            },
+            title: {
+                type: DataTypes.STRING(50),
+                allowNull: false
+            },
+            color: {
+                type: DataTypes.STRING(7),
+                allowNull: false
+            },
+            type: {
+                type: DataTypes.STRING(20),
+                allowNull: false
             }
         },
-        evaluation_number:{
-            type: DataType.INTEGER
-        },
-        max_grade:{
-            type: DataType.FLOAT
-        },
-        title:{
-            type: DataType.STRING(100)
-        },
-        color:{
-            type: DataType.STRING(45)
-        },
-        type:{
-            type: DataType.STRING(45)
+        {
+            tableName: "evaluations",
+            timestamps: false,
         }
-    },{
-        timestamps: false
-    })
+    );
 
-    Evaluation.associate = (models) =>{
-        Evaluation.(models.Lesson, {
-            foreignKey: 'id',
-            as: 'lesson'
-        })
-    }
-    
-    return Evaluation
-}
+    Evaluation.associate = (models) => {
+        Evaluation.hasMany(models.Student_Evaluation, {
+            as: "students_evaluations"
+        });
+        Evaluation.belongsToMany(models.Class_Lesson, {
+            as: "classes_lessons",
+            foreignKey: "evaluations_id",
+            through: models.Student_Evaluation
+        });
+
+    };
+
+    return Evaluation;
+};
