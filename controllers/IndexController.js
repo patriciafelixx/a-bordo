@@ -270,14 +270,15 @@ module.exports = {
     recordGrades: (req, res) => {
 
     },
-    renderAttendanceSheet: (req, res) => {
-        return res.render("attendance");
+    renderAttendanceSheet: async (req, res) => {
+        let student = await Student.findAll()
+        return res.render("attendance", {student});
     },
     recordAttendances: (req, res) => {
 
     },
     renderRecordBook: async (req, res) => {
         let student = await Student.findAll()
-        return res.render('daily', student);
+        return res.render('daily', {student});
     }
 };
