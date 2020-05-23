@@ -276,7 +276,8 @@ module.exports = {
     recordAttendances: (req, res) => {
 
     },
-    renderRecordBook: (req, res) => {
-        return res.render('daily');
+    renderRecordBook: async (req, res) => {
+        let student = await Student.findAll()
+        return res.render('daily', student);
     }
 };
