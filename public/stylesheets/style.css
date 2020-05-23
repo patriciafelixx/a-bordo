@@ -1,0 +1,1030 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+
+  font-family: "Work Sans", sans-serif;
+  font-size: 16px;
+}
+
+body{
+  overflow: hidden;
+}
+
+:focus { outline: none; }
+button:focus { outline: none; }
+
+header {
+  background-color: #30c1f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+
+  height: 4rem;
+  width: 100vw;
+
+  padding: 0 3rem;
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+div#logo {
+  display: flex;
+  align-items: center;
+}
+
+h1.logo {
+  color: #ffffff;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-top: 8px;
+
+  margin-left: .75rem;
+}
+
+img.logo { height: 2.25rem; }
+
+/* HEADER TOP RIGHT MENU */
+div#top-right-menu {
+  float: right;
+  display: flex;
+  align-items: center;
+}
+
+div#notifications {
+  cursor: pointer;
+  margin-right: 2rem;
+}
+
+div#notifications img {height: 2rem; }
+
+div#user-options {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+div#user-options img {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  margin-right: .75rem;
+}
+
+div#user-options p {
+  font-size: .75rem;
+  margin-bottom: 0;
+}
+
+div#user-options p:first-child { font-weight: 600; }
+
+div#user-options p:last-child {
+  color: white;
+  font-weight: 700;
+}
+/* END OF HEADER TOP RIGHT MENU */
+
+/* LOGIN PAGE */
+section#about {
+  background-color: #b6ecfd;
+  box-shadow: 3px 0 6px rgba(0, 0, 0, 0.25);
+  background-image: url(../images/background-pattern.png);
+
+  position: fixed;
+  height: 100%;
+  width: 40%;
+  z-index: 1;
+  
+  padding: 8% 4%;
+
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+section#about article {
+  background-color: #b6ecfd;
+  border-left: 12px solid #f95f2f;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.25);
+  padding: 1.5rem 1rem 1rem 2rem;
+}
+
+section#about h2 {
+  color: #f95f2f;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+section#about ul { list-style-type: none; }
+
+section#about ul li:before {
+  content: "⇒";
+  margin: 0 .5rem 0 0;
+  color: #f95f2f;
+}
+
+main#login {
+  margin-left: 40%; /* same as section#about width */
+
+  display: flex;
+  justify-content: center;
+}
+
+main#login #login-box {
+  width: 60%;
+  margin-top: 10%;
+}
+
+/* SELECT USER TEACHER VS GUARDIAN */
+div#user-type {
+  border-bottom: 12px solid #f95f2f;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+div#user-type label {
+  background-color: #b6ecfd;
+  box-shadow: none;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+
+  height: 3.5rem;
+  width: 48%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+div#user-type label.selected {background-color: #f95f2f; }
+div#user-type label:hover { background-color: #f95f2f; }
+
+div#user-type input {
+  opacity: 0;
+  position: absolute;
+}
+/* END OF SELECT USER TEACHER VS GUARDIAN */
+
+div#main-content {
+  background-color: #30c1f9;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+
+  padding: 3rem 3.5rem;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+div#main-content input[type=email],
+div#main-content input[type=password],
+div#main-content input[type=text],
+div#main-content button  {
+  height: 48px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+div#main-content div#remember { margin-bottom: 24px; }
+
+div#remember {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  font-weight: 600;
+}
+
+div#remember label:hover { color: #f95f2f; }
+
+div#remember a:hover {
+  color: #f95f2f;
+  border-bottom: 1px solid #f95f2f;
+}
+
+div#remember a {
+  color: black;
+  text-decoration: none;
+  border-bottom: 1px solid black;
+}
+
+/* CUSTOM CHECKBOX SPECIFIC FOR THE LOGIN AREA */
+main#login label.checkbox-container span.checkmark {
+  background-color: #b6ecfd;
+}
+
+main#login label.checkbox-container input:active ~ span.checkmark {
+  box-shadow: none
+}
+
+main#login label.checkbox-container input:checked ~ span.checkmark {
+  background-color: #b6ecfd;
+  box-shadow: none;
+}
+
+main#login label.checkbox-container span.checkmark:after {
+  /* CREATING CHECKMARK */
+  content: "";
+  display: none;
+  position: absolute;
+  /* STYLING THE CHECKMARK */
+  top: 4px;
+  left: 4px;
+  background-color: #f95f2f;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+  width: 1rem;
+  height: 1rem;
+  border-radius: 25%;
+}
+
+main#login label.checkbox-container input:checked ~ .checkmark:after {
+  /* DISPLAYING CHECKMARK */
+  display: block;
+}
+/* END OF CUSTOM ESPECIFIC CHECKBOX (LOGIN AREA)*/
+/* END OF LOGIN PAGE */
+
+/* NAVIGATION BAR STYLES */
+nav {
+  background-color: #b6ecfd;
+  box-shadow: 1px 0 6px rgba(0, 0, 0, 0.25);
+
+  height: 100%;
+  width: 25%;
+
+  z-index: 50;
+
+  position: fixed;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+nav h2 {
+  color: #f95f2f;
+  font-size: 2.25rem;
+  font-weight: 700;
+
+  margin-top: 7rem;
+  margin-bottom: 3.5rem;
+}
+
+nav div.navbar {
+  width: 80%;
+  padding: 0;
+}
+
+div.navbar ul.nav {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+a.nav-link {
+  background-color: #30c1f9;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+  border: none;
+  border-radius: 5px;
+
+  min-height: 48px;
+
+  margin-bottom: 1.5rem;
+
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+li .nav-link:hover {
+  background-color: #f95f2f !important;
+  color: #ffffff;
+}
+
+li .nav-link:active {
+  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+}
+
+a.active {
+  background-color: #f95f2f !important;
+  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+}
+
+/* END OF NAVIGATION BAR STYLES */
+
+main { margin-left: 25%; /* same as nav width */ }
+
+/* SETTING SCROLL SNAPING */
+form#create > div {
+  height: 90vh;
+  overflow: auto;
+
+  scroll-snap-type: y mandatory;
+
+  display: flex;
+  flex-flow: column nowrap;
+
+  /* necessary for Bootstrap scrollspying */
+  position: relative;
+}
+
+main form#create div section {
+  height: 100%;
+  overflow: hidden;
+
+  scroll-snap-stop: always;
+  scroll-snap-align: center;
+  flex: none;
+  /* END OF SETTING SCROLL SNAPING */
+
+  padding: 4.5rem 3.5rem 0 3.5rem;
+}
+
+form#create div section#set-classes { padding-top: 1rem; }
+
+section#set-user {
+  padding-left: 7rem;
+  padding-right: 7rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section div.gray-box {
+  background-color: #eaeaea;
+
+  padding: 3.5rem;
+
+  height: 55vh;
+  overflow: auto;
+  margin-bottom: 3rem;
+}
+
+section#set-schools div.gray-box { height: 60vh; }
+
+/* SETTING USER */
+section#set-user > div {
+  margin-bottom: 1rem;
+  width: 100%;
+  display: flex;
+}
+
+section#set-user div input { width: inherit; }
+section#set-user div *:first-child { margin-right: .75rem; }
+
+section#set-user div.add-pic {
+  max-width: 11rem;
+  min-height: 11rem;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+label { margin-bottom: 0; }
+
+label.add-pic img#user-pic {
+  border: 1px solid;
+  border-radius: 10px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+label.add-pic div#text-on-hover {
+  opacity: 0;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0px;
+}
+
+label.add-pic:hover div#text-on-hover {
+  opacity: 1;
+  background-color: rgba(48, 193, 249, 0.25);
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  color: #eaeaea;
+  font-weight: 600;
+}
+
+div#text-on-hover span { margin: 0.5rem 1rem; }
+
+/* TOGGLING PASSWORD VISIBILITY */
+div.password {
+  position: relative;
+  width: inherit;
+}
+
+div.password div.eye-icon {
+  width: 32px;
+  height: 48px;
+
+  position: absolute;
+  top: 0;
+  right: 12px;
+
+  background-image: url("../images/eye.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  cursor: pointer;
+}
+
+div.password div.eye-icon.slash {
+  width: 32px;
+  height: 48px;
+
+  position: absolute;
+  top: 0;
+  right: 12px;
+
+  background-image: url("../images/eye-slash.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  cursor: pointer;
+}
+/* END OF TOGGLING PASSWORD VISIBILITY */
+
+li.dash {
+  background-color: #eaeaea;
+  width: 7%;
+  height: 6px;
+}
+
+section#set-user ul {
+  list-style: none;
+
+  width: 100%;
+
+  font-weight: 700;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+section#set-user ul li {
+  font-size: 14px;
+  color: #c4c4c4;
+}
+
+section#set-user ul li span {
+  color: #fe539b;
+  font-weight: 700;
+}
+/* END OF SETTING USER */
+
+/* BUTTONS FOR ADDING NEW SCHOOLS AND CLASSES */
+main#register-teacher section > div:first-child button {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+section div.instances-list { display: inline-block; }
+
+div#new-classes button { margin-top: 0.5rem; }
+
+button.btn-add { width: 48px; }
+
+button.btn-del {
+  background-color: #fe539b;
+  width: 48px;
+}
+
+button#del-school,
+button#del-class {
+  background-color: #fe539b;
+  width: 168px;
+  float: right;
+}
+
+button#del-school:disabled,
+button#del-class:disabled,
+button#del-school[disabled],
+button#del-class[disabled] {
+  background-color: #c4c4c4;
+}
+/* END OF BUTTONS FOR ADDING NEW SCHOOLS AND CLASSES */
+
+/* SCHOOLS SETTING */
+div.school-location { display: flex; }
+.school-location select:first-child { margin-right: .75rem; }
+#set-schools select { width: 100%; }
+#set-schools p { margin-top: 12px; }
+#set-schools span#term { font-weight: 700; }
+
+#set-schools #bimonthly,
+#trimonthly {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+/* SETTING RADIO INPUT APPEARANCE */
+#set-schools .btn-appearance { position: relative; }
+
+#set-schools input[type="radio"] {
+  position: absolute;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 1000;
+  opacity: 0;
+  cursor: pointer;
+}
+/* END OF SETTING RADIO INPUT APPEARANCE */
+/* END OF SCHOOLS SETTING*/
+
+/* CLASSES SETTING */
+div#class-code {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+div#class-code label { margin-right: 1rem; }
+
+div#new-courses {
+  margin-bottom: 1.5rem;
+
+  display: flex;
+  flex-wrap: wrap;
+}
+
+div#new-courses div.buttons,
+div.course-retake-list button { margin-left: 6px; }
+
+div#students-list > div:first-child span#student-name {
+  margin-left: 84px; /* equals to the input[type="number"] width */
+}
+
+div#students-list div.students {
+  margin-top: 12px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+div#students-list input[type="number"] {
+  width: 84px;
+  margin-bottom: 0px;
+  margin-right: 12px;
+}
+
+div#students-list input[type="text"] {
+  min-width: 30rem;
+  margin: 0;
+  margin-right: 12px;
+}
+
+/* CHECKBOX CUSTOMIZING */
+.checkbox-container {
+  position: relative;
+  padding-left: 2rem;
+  margin-right: 1rem;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.checkbox-container input {
+  /* HIDDING THE ORIGINAL CHECKBOX */
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.checkbox-container span.checkmark {
+  /* CREATING A NEW CHECKBOX */
+  background-color: #30c1f9;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 25%;
+
+  height: 1.5rem;
+  width: 1.5rem;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.checkbox-container input:checked ~ span.checkmark {
+  background-color: #f95f2f;
+  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.checkbox-container input:active ~ span.checkmark {
+  background-color: #f95f2f;
+  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+/* END OF CHECKBOX CUSTOMIZING */
+
+div.students div.course-retake-list {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+div.students div.course-retake-list select {
+  margin-bottom: 0;
+}
+/* END OF CLASSES SETTING */
+
+/* BUTTONS, SELECTS AND INPUTS*/
+select {
+  min-height: 48px;
+  height: 48px;
+
+  background-color: white;
+  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+
+  border: 1px solid;
+  border-radius: 10px;
+
+  margin-bottom: 12px;
+  padding: 0 3rem 0 1rem;
+
+  cursor: pointer;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-image: url("../images/arrow-select.svg");
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: contain;
+}
+
+select:disabled {
+  cursor: default;
+  color: black;
+  filter: contrast(30%) brightness(130%);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="tel"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+textarea {
+  min-height: 48px;
+  background-color: white;
+  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+
+  border: 1px solid;
+  border-radius: 10px;
+
+  padding: 0 1rem;
+  font-size: 16px;
+}
+
+input:disabled {
+  cursor: default;
+  color: black;
+  filter: contrast(30%) brightness(130%);
+}
+
+button,
+.btn-appearance {
+  background-color: #30c1f9;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  border: none;
+  border-radius: 5px;
+
+  width: 264px;
+  min-height: 48px;
+
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 600;
+
+  /* this will be used in divs */
+  text-align: center;
+  vertical-align: middle;
+  line-height: 48px;
+}
+
+button:hover,
+.btn-appearance:hover {
+  background-color: #f95f2f;
+  color: #ffffff;
+}
+
+button:active,
+.btn-appearance:active {
+  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+button:disabled,
+button[disabled],
+.btn-appearance:disabled,
+.btn-appearance[disabled] {
+  background-color: #c4c4c4;
+  box-shadow: none;
+  color: #eaeaea;
+}
+
+.selected {
+  background-color: #f95f2f;
+  box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+}
+
+.special {
+  background-color: #ffcc33;
+  color: #683e05;
+  width: 100%;
+}
+
+.special:hover {
+  background-color: #43c908;
+  color: white;
+}
+
+/* MEDIA QUERIES */
+
+/* @media (max-width:768px) {
+    .board {
+        flex-direction: column;
+    }
+} */
+
+
+/* #TAKE-ATTENDANCE AND #RECORD-BOOK STYLES */
+
+nav .select {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+.select select { width: 100%; }
+
+main#take-attendance, main#record-book, main#grade {
+  width: 75vw;
+  margin-top: 4rem;
+}
+
+/* SECTION TABLE-SETTINGS */
+
+main section.table-settings {
+  background-color: #fff;
+  width: 75vw;
+  height: 30%;
+  margin-left: 0;
+  padding: 3rem;
+  padding-bottom: 1.5rem;
+
+  position: fixed;
+  top: 4rem;
+  z-index: 1;
+
+  display: flex;
+}
+
+/* #ATTENDANCE TABLE-SETTINGS CONTENT */
+
+div.selectors,
+div.observations {
+  display: flex;
+  flex-direction: column;
+}
+
+div.selectors {
+  flex-grow: 1;
+  margin-right: 1.5rem;
+}
+
+div.observations { flex-grow: 4; }
+
+div.selectors input,
+div.observations textarea { margin-bottom: 0.75rem; }
+
+div.observations textarea {
+  height: 6.75rem;
+  padding-top: .75rem;
+}
+
+div.observations label { width: fit-content; }
+
+/* GENERAL SECTION TABLE */
+
+main section.table {
+  margin-top: 14rem;
+  overflow: auto;
+}
+
+section.table th { font-weight: normal; }
+section.table td { vertical-align: middle; }
+ 
+th.student-number, td.student-number {
+  padding-left: 3rem;
+  width: 6rem;
+  min-width: 6rem;
+}
+
+th.student-name, td.student-name {
+  width: 18rem;
+  min-width: 18rem;
+}
+
+/* SETTING TAKE ATTENDANCE CHECKBOXES CONTAINERS */
+
+td.attendance-check { display: flex; }
+
+td div.attendance-check {
+  margin-right: 2rem;
+  display: flex;
+}
+
+/* STYLING TAKE ATTENDANCE CHECKBOXES */
+
+div.attendance-check label {
+  cursor: pointer;
+
+  height: 36px;
+  width: 132px;
+  border-radius: 36px;
+
+  margin-right: 0.5rem;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  font-weight: 700;
+}
+
+div.attendance-check label.present { background-color: #30c1f9; }
+div.attendance-check label.absent { background-color: #fe539b; }
+div.attendance-check label.late { background-color: #ffcc33; }
+
+div.attendance-check label input {
+  opacity: 0;
+  position: absolute;
+  cursor: pointer;
+}
+
+/* SETTING GRADE INPUTS */
+
+#grade td.evaluation, #grade th.evaluation {
+  width: 7rem;
+}
+
+#grade td.evaluation:last-of-type, #grade th.evaluation:last-of-type {
+  width: 8rem;
+}
+
+/* SETTING #GRADE "NOT EVALUATED" CHECKBOXES */
+
+td.not-evaluated {
+  width: 4.5rem;
+  height: 4.5rem;
+  position: relative;
+}
+
+td.not-evaluated label {
+  position: absolute;
+  top: 1.5rem;
+}
+
+/* SETTING "AVERAGE" FIELDS */
+
+td.avg {
+  font-weight: 600;
+  padding: 1.5rem;
+}
+
+/* SETTING GRADE CHART */
+
+main#grade section.table-settings .selectors { width: 25%; }
+
+main#grade section.table-settings select { width: 100%; }
+
+.chart { width: 75%; }
+
+#instructions { display: flex; }
+
+main#grade div.selectors p { margin-bottom: .5rem; }
+
+div#instructions p {
+  margin-bottom: 0;
+}
+
+#disclaimer {
+  margin-left: .5rem;
+  color: #fe539b;
+  font-weight: 600;
+}
+
+#input-fields {
+  width: 100%;
+  display: flex;
+}
+
+#input-fields div {
+  width: 100%;
+
+  margin: 0 .5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+#input-fields label.text { margin-bottom: .5rem; }
+
+.text { font-weight: 600; }
+
+.text.blue { color: #54A2EB; }
+.text.pink { color: #ff92aa; }
+.text.yellow { color: #fae155; }
+.text.violet { color: #C979FB; }
+.text.orange { color: #FFAC60; }
+.text.green { color: #41E5AA; }
+
+
+#input-fields input {
+  width: 100%;
+}
+
+#container {
+  width: 100%;
+  height: 24px;
+  border-radius: 50%;
+  margin: 1rem 0;
+  display: flex;
+}
+
+.bar {
+  height: 100%;
+  width: 100%;
+}
+
+.bar:first-child { 
+  border-top-left-radius: 12px; 
+  border-bottom-left-radius: 12px; 
+}
+.bar:last-of-type {
+  border-top-right-radius: 12px; 
+  border-bottom-right-radius: 12px; 
+}
+
+.bar.blue { background-color: #54A2EB; }
+.bar.pink { background-color: #ff92aa; }
+.bar.yellow { background-color: #fae155; }
+.bar.violet { background-color: #C979FB; }
+.bar.orange { background-color: #FFAC60; }
+.bar.green { background-color: #41E5AA; }
+
+/* SCROLLBAR PERSONALIZADO ----------------*/
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background-color:#f4f4f4;
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 0px rgba(0,0,0,0.5); 
+  background-color: rgb(165, 165, 165);
+}
+
+/* FIM DO SCROLLBAR PERSONALIZADO ---------*/

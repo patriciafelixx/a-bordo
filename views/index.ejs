@@ -1,0 +1,72 @@
+<%- include("partials/header.ejs", {title: "Bem-Vindo aBordo!"}) %>
+</head>
+
+<body>
+  <header>
+    <div id="logo">
+      <img class="logo" src="../images/airplane.svg" alt="">
+      <h1 class="logo">aBordo</h1>
+    </div>
+  </header>
+
+  <section id="about">
+    <article>
+      <h2>PROFESSOR,</h2>
+      <p>Este é o seu DIÁRIO ESCOLAR virtual!</p>
+      <ul>
+        <li>Faça chamadas,</li>
+        <li>lance notas,</li>
+        <li>veja estatíticas,</li>
+        <li>contate responsáveis.</li>
+      </ul>
+      <br>
+      <h2>RESPONSÁVEL,</h2>
+      <p>Acompanhe o desempenho escolar dos seus filhos!</p>
+      <p>
+        Receba avisos direto dos professores e não perca a data da próxima
+        reunião de Pais e Mestres.
+      </p>
+    </article>
+  </section>
+
+  <main id="login">
+    <div id="login-box">
+
+      <form action="/cadastrar" method="GET" id="signup">
+        <div id="user-type">
+          <label for="teacher" class="selected">Sou PROFESSOR<input type="radio" name="usuario" value="professor"
+              id="teacher" checked /></label>
+          <label for="guardian">Sou RESPONSÁVEL<input type="radio" name="usuario" value="responsavel"
+              id="guardian" /></label>
+        </div>
+      </form>
+
+      <form action="/login" method="POST" autocomplete="on">
+
+        <input type="radio" name="userType" value="professor" id="teacher-login" checked hidden />
+        <input type="radio" name="userType" value="responsavel" id="guardian-login" hidden />
+
+        <div id="main-content">
+          <input type="email" name="email" placeholder="Meu e-mail" required />
+
+          <div class="password">
+            <input type="password" name="password" id="password" placeholder="Minha senha" required />
+            <div class="eye-icon" id="eye-icon" onclick="toogleVisibility()"></div>
+          </div>
+
+          <div id="remember">
+            <label for="rememberMe" class="checkbox-container"><input type="checkbox" name="rememberMe"
+                id="rememberMe" />Lembre-me
+              <span class="checkmark"></span></label>
+            <a href="#">Esqueci minha senha</a>
+          </div>
+
+          <button class="special" type="submit">Entrar</button>
+      </form>
+      <button class="special" type="submit" form="signup">Cadastrar</button>
+    </div>
+
+    </div>
+  </main>
+
+  <%- include("partials/footer.ejs") %>
