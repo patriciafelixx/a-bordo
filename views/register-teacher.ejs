@@ -45,9 +45,9 @@
           </div>
 
           <div id="full-name">
-            <input type="text" name="forename" id="name" placeholder="Nome" value="Professor" />
+            <input type="text" name="forename" id="name" placeholder="Nome" required />
 
-            <input type="text" name="surname" id="surname" placeholder="Sobrenome" value="Pardal" />
+            <input type="text" name="surname" id="surname" placeholder="Sobrenome" required />
           </div>
           <div id=" contact-info">
             <input type="email" name="email" id="email" placeholder="E-mail" />
@@ -56,15 +56,22 @@
           </div>
           <div id=" add-password">
             <div class="password">
-              <input type="password" name="password" id="password" placeholder="Senha" value="senha" />
+              <input type="password" name="password" id="password" placeholder="Senha" required />
               <div class="eye-icon" id="eye-icon-1" onclick="toogleVisibility()"></div>
             </div>
 
             <div class="password">
-              <input type="password" id="confirm-password" placeholder="Confirme a senha" />
+              <input type="password" id="confirm-password" placeholder="Confirme a senha" required />
               <div class="eye-icon" id="eye-icon-2" onclick="toogleVisibility()"></div>
             </div>
           </div>
+
+          <% if(typeof errors != "undefined") { %>
+          <% errors.forEach(error => { %>
+          <span><%= error %></span>
+          <% }); %>
+          <% } %>
+
           <ul id="password-strength">
             <li class="dash"></li>
             <li class="dash"></li>
@@ -103,53 +110,21 @@
           </div>
           <div class="gray-box">
             <div class="school-location">
-              <select name="school1[]">
-                <option disabled>UF</option>
-                <option value="AC">Acre</option>
-                <option value="AL">Alagoas</option>
-                <option value="AP">Amapá</option>
-                <option value="AM">Amazonas</option>
-                <option value="BA">Bahia</option>
-                <option value="CE">Ceará</option>
-                <option value="DF">Distrito Federal</option>
-                <option value="ES">Espírito Santo</option>
-                <option value="GO">Goiás</option>
-                <option value="MA">Maranhão</option>
-                <option value="MT">Mato Grosso</option>
-                <option value="MS">Mato Grosso do Sul</option>
-                <option value="MG">Minas Gerais</option>
-                <option value="PA">Pará</option>
-                <option value="PB">Paraíba</option>
-                <option value="PR">Paraná</option>
-                <option value="PE">Pernambuco</option>
-                <option value="PI">Piauí</option>
-                <option value="RJ" selected>Rio de Janeiro</option>
-                <option value="RN">Rio Grande do Norte</option>
-                <option value="RS">Rio Grande do Sul</option>
-                <option value="RO">Rondônia</option>
-                <option value="RR">Roraima</option>
-                <option value="SC">Santa Catarina</option>
-                <option value="SP">São Paulo</option>
-                <option value="SE">Sergipe</option>
-                <option value="TO">Tocantins</option>
+              <select name="school1[]" id="state-school1" required>
+                <option disabled selected>UF</option>
               </select>
 
-              <select name="school1[]">
-                <option disabled>Município</option>
-                <option value="Rio de Janeiro" selected>Rio de Janeiro</option>
+              <select name="school1[]" id="municipality-school1" disabled required>
+                <option disabled selected>Município</option>
               </select>
             </div>
 
-            <select name="school1[]">
-              <option disabled>Nome da escola</option>
-              <option value="Colégio Pedro II" selected>Colégio Pedro II</option>
-              <option value="ETE Ensino Fundamental Visconde de Mauá">Escola Técnica Estadual do Ensino Fundamental
-                Visconde de Mauá
-              </option>
+            <select name="school1[]" id="school1" disabled required>
+              <option disabled selected>Nome da escola</option>
             </select>
 
-            <select name="school1[]">
-              <option disabled>Média para aprovação</option>
+            <select name="school1[]" required>
+              <option disabled selected>Média para aprovação</option>
               <option disabled>Escala de 0 a 10 pontos</option>
               <option value="5">5,0 pontos</option>
               <option value="6">6,0 pontos</option>
@@ -163,7 +138,7 @@
             <p>Sistema de avaliação: <span id="term"></span></p>
             <label class="btn-appearance" id="bimonthly" onclick="isBimonthly()">
               Bimestral
-              <input type="radio" name="school1[]" value="4" />
+              <input type="radio" name="school1[]" value="4" required />
             </label>
             <label class="btn-appearance" id="trimonthly" onclick="isTrimonthly()">
               Trimestral
@@ -172,7 +147,7 @@
 
 
 
-            <div class="school-location">
+            <!-- <div class="school-location">
               <select name="school2[]">
                 <option disabled selected>UF</option>
                 <option value="AC">Acre</option>
@@ -238,7 +213,7 @@
             <label class="btn-appearance" id="trimonthly" onclick="isTrimonthly()">
               Trimestral
               <input type="radio" name="school2[]" value="3" />
-            </label>
+            </label> -->
           </div>
         </section>
 
@@ -265,58 +240,62 @@
 
           <div class="gray-box">
             <div id="class-code">
-              <label for="class">Turma</label>
-              <input type="text" name="class1-school1[]" id="class" placeholder="Número da turma" value="2233" />
-              <label for="">Ano
-                <input type="text" name="class1-school1[]" value="2020">
-              </label>
-              <select name="class1-school1[]">
-                <option disabled>Série/Ano</option>
+              <!-- <label for="class">Turma</label>
+              <input type="text" name="class1-school1[]" id="class" placeholder="Número da turma" required /> -->
+
+              <!-- <label for="">Ano
+                <input type="text" name="class1-school1[]" value="2020" required>
+              </label> -->
+              <% let date = new Date %>
+              <% let year = date.getFullYear() %>
+              <select name="class1-school1[]" id="class">
+                <option disabled>Ano letivo</option>
+                <option value="<%= year %>" selected><%= year %></option>
+                <option disabled>•-•-•-•-•</option>
+                <option value="newYear">Outro ano letivo</option>
+              </select>
+
+              <select name="class1-school1[]" required>
+                <option disabled selected>Série/Ano</option>
                 <option disabled>Ensino Fundamental</option>
-                <option value="Ensino Fundamental - 1º ano">1º ano</option>
-                <option value="Ensino Fundamental - 2º ano">2º ano</option>
-                <option value="Ensino Fundamental - 3º ano">3º ano</option>
-                <option value="Ensino Fundamental - 4º ano">4º ano</option>
-                <option value="Ensino Fundamental - 5º ano">5º ano</option>
-                <option value="Ensino Fundamental - 6º ano">6º ano</option>
-                <option value="Ensino Fundamental - 7º ano">7º ano</option>
-                <option value="Ensino Fundamental - 8º ano">8º ano</option>
-                <option value="Ensino Fundamental - 9º ano" selected>9º ano</option>
+                <option value="Ensino Fundamental-1º ano">1º ano</option>
+                <option value="Ensino Fundamental-2º ano">2º ano</option>
+                <option value="Ensino Fundamental-3º ano">3º ano</option>
+                <option value="Ensino Fundamental-4º ano">4º ano</option>
+                <option value="Ensino Fundamental-5º ano">5º ano</option>
+                <option value="Ensino Fundamental-6º ano">6º ano</option>
+                <option value="Ensino Fundamental-7º ano">7º ano</option>
+                <option value="Ensino Fundamental-8º ano">8º ano</option>
+                <option value="Ensino Fundamental-9º ano">9º ano</option>
                 <option disabled>Ensino Médio</option>
-                <option value="Ensino Médio - 1ª série">1ª série</option>
-                <option value="Ensino Médio - 2ª série">2ª série</option>
-                <option value="Ensino Médio - 3ª série">3ª série</option>
+                <option value="Ensino Médio-1ª série">1ª série</option>
+                <option value="Ensino Médio-2ª série">2ª série</option>
+                <option value="Ensino Médio-3ª série">3ª série</option>
+              </select>
+
+              <select name="class1-school1[]" id="class">
+                <option disabled selected>Número da turma</option>
+                <option value="1111">1111</option>
+                <option value="1121">1121</option>
+                <option value="1131">1131</option>
+                <option value="1141">1141</option>
+                <option value="1151">1151</option>
+                <option value="1161">1161</option>
+                <option value="1171">1171</option>
+                <option value="1181">1181</option>
+                <option value="1191">1191</option>
+                <option value="1211">1211</option>
+                <option value="1221">1221</option>
+                <option value="1231">1231</option>
+                <option disabled>•-•-•-•-•</option>
+                <option value="newClass">Adicionar nova turma</option>
               </select>
             </div>
 
             <p>Nesta turma, eu leciono...</p>
             <div id="new-courses">
-              <select name="subjects-class1-school1[]">
-                <option value="" disabled>Escolher disciplina</option>
-                <option value="1">Artes</option>
-                <option value="2">Biologia</option>
-                <option value="3">Ciência</option>
-                <option value="4">Educação Física</option>
-                <option value="5">Filosofia</option>
-                <option value="6">Física</option>
-                <option value="7">Geografia</option>
-                <option value="8" selected>Geometria</option>
-                <option value="9">História</option>
-                <option value="10">Informática</option>
-                <option value="11">Língua Espanhola</option>
-                <option value="12">Língua Francesa</option>
-                <option value="13">Língua Inglesa</option>
-                <option value="14">Língua Portuguesa</option>
-                <option value="15">Literatura</option>
-                <option value="16">Matemática</option>
-                <option value="17">Música</option>
-                <option value="18">Química</option>
-                <option value="19">Redação</option>
-                <option value="20">Sociologia</option>
-                <option value="21">Teatro</option>
-              </select>
-              <select name="subjects-class1-school1[]">
-                <option value="" disabled>Escolher disciplina</option>
+              <select name="subjects-class1-school1[]" required>
+                <option disabled selected>Escolher disciplina</option>
                 <option value="1">Artes</option>
                 <option value="2">Biologia</option>
                 <option value="3">Ciência</option>
@@ -333,11 +312,39 @@
                 <option value="14">Língua Portuguesa</option>
                 <option value="15">Literatura</option>
                 <option value="16">Matemática</option>
-                <option value="17" selected>Música</option>
+                <option value="17">Música</option>
                 <option value="18">Química</option>
                 <option value="19">Redação</option>
                 <option value="20">Sociologia</option>
                 <option value="21">Teatro</option>
+                <option disabled>•-•-•-•-•</option>
+                <option value="newSubject">Adicionar nova disciplina</option>
+              </select>
+              <select name="subjects-class1-school1[]">
+                <option disabled selected>Escolher disciplina</option>
+                <option value="1">Artes</option>
+                <option value="2">Biologia</option>
+                <option value="3">Ciência</option>
+                <option value="4">Educação Física</option>
+                <option value="5">Filosofia</option>
+                <option value="6">Física</option>
+                <option value="7">Geografia</option>
+                <option value="8">Geometria</option>
+                <option value="9">História</option>
+                <option value="10">Informática</option>
+                <option value="11">Língua Espanhola</option>
+                <option value="12">Língua Francesa</option>
+                <option value="13">Língua Inglesa</option>
+                <option value="14">Língua Portuguesa</option>
+                <option value="15">Literatura</option>
+                <option value="16">Matemática</option>
+                <option value="17">Música</option>
+                <option value="18">Química</option>
+                <option value="19">Redação</option>
+                <option value="20">Sociologia</option>
+                <option value="21">Teatro</option>
+                <option disabled>•-•-•-•-•</option>
+                <option value="newSubject">Adicionar nova disciplina</option>
               </select>
 
               <div class="buttons">
@@ -354,16 +361,15 @@
               </div>
 
               <div class="students">
-                <input type="number" name="student1-class1-school1[]" value="1" />
-                <input type="text" name="student1-class1-school1[]" placeholder="Nome do aluno" value="João da Silva" />
-
+                <input type="number" name="student1-class1-school1[]" value="1" required />
+                <input type="text" name="student1-class1-school1[]" placeholder="Nome do aluno" required />
                 <label for="course-retake-checkbox-student1" class="checkbox-container">Dependência
                   <input type="checkbox" name="student1-class1-school1[]" class="course-retake-checkbox"
                     id="course-retake-checkbox-student1" data-div-id="course-retake-student1" />
                   <span class="checkmark"></span>
                 </label>
 
-                <div class="course-retake-list" id="course-retake-student1" hidden>
+                <div class="course-retake-list" id="course-retake-student1" hidden required>
                   <select name="student1-class1-school1[]" id="course-retake-list1-student1">
                     <option value="" disabled selected>Dependência em...</option>
                     <option value="1">Artes</option>
@@ -397,8 +403,8 @@
               </div>
 
               <div class="students">
-                <input type="number" name="student2-class1-school1[]" value="2" />
-                <input type="text" name="student2-class1-school1[]" placeholder="Nome do aluno" value="Zeca Tatu" />
+                <input type="number" name="student2-class1-school1[]" value="2" required />
+                <input type="text" name="student2-class1-school1[]" placeholder="Nome do aluno" required />
 
                 <label for="course-retake-checkbox-student2" class="checkbox-container">Dependência
                   <input type="checkbox" name="student2-class1-school1[]" class="course-retake-checkbox"
@@ -406,7 +412,7 @@
                   <span class="checkmark"></span>
                 </label>
 
-                <div class="course-retake-list" id="course-retake-student2" hidden>
+                <div class="course-retake-list" id="course-retake-student2" hidden required>
                   <select name="student2-class1-school1[]" id="course-retake-list1-student2">
                     <option value="" disabled selected>Dependência em...</option>
                     <option value="1">Artes</option>
@@ -448,4 +454,5 @@
     </form>
   </main>
 
+  <script src="/javascripts/api.js"></script>
   <%- include("partials/footer.ejs") %>
