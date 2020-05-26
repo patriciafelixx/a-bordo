@@ -1,84 +1,56 @@
 const { User, School, Subject, Student, Teacher, Guardian, Class, Course, Student_Guardian, Class_Student, Lesson, Attendance, Evaluation, Student_Evaluation, Repeater } = require("../models");
 const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 module.exports = {
-    renderLogin: (req, res) => {
-        return res.render('index');
-    },
-    login: async (req, res) => {
-        // READ INFOS FROM REQ.BODY
-        const { userType, email, password, rememberMe } = req.body;
-        // TRY AND LOAD A USER FROM DB WHOSE EMAIL == REQ.BODY.EMAIL
-        const user = await User.findOne(
-            {
-                where: { email }
-            }
-        );
-        // IF THAT USER DOES NOT EXIST IN DB, REDIRECT TO LOGIN
-        if (!user) {
-            return res.redirect("/login?error=1");
-        }
-        // IF USER EXISTS, COMPARE REQ.BODY.PASSWORD WITH DB PASSWORD
-        // AND IF THEY DON'T MATCH, REDIRECT TO LOGIN ALSO
-        if (!bcrypt.compareSync(password, user.password)) {
-            return res.redirect("/login?error=1");
-        }
-        // IF PASSWORDS MATCH, SET A SESSION FOR THE USER
-        req.session.user = user;
-        // REMEMBER USER
-        const oneWeek = 7 * 24 * 3600 * 1000; // 1 week
-        if (rememberMe != "undefined") {
-            res.cookie("aBordo", user.email, { maxAge: oneWeek });
-        }
-        // FINALLY, MANAGE REDIRECTIONS
-        const isTeacher = await Teacher.findOne({ where: { userId: user.id } });
-        const isGuardian = await Guardian.findOne({ where: { userId: user.id } });
+    renderHome: async (req, res) => {
+        const user = req.session.user;
 
-        if (isTeacher && isGuardian) {
-            return res.redirect(`/${userType}/home`);
-        } else if (isTeacher) {
-            return res.redirect(`/professor/home`);
-        } else {
-            return res.redirect(`/responsavel/home`);
+        const teacher = await Teacher.findOne({ where: { userId: user.id } });
+        const courses = await Course.findAll({ where: { teacherId: teacher.id } });
+
+        let subjectsIds = [];
+        let classesIds = [];
+
+        for (course of courses) {
+            subjectsIds.push(course.subjectId);
+            classesIds.push(course.classId);
         }
+        let subjects = [];
+        for (id of subjectsIds) {
+            let subject = await Subject.findOne({ where: { id } });
+            subjects.push(subject);
+        }
+        let classes = [];
+        for (id of classesIds) {
+            let c = await Class.findOne({ where: { id } });
+            classes.push(c);
+        }
+        let schools = [];
+        for (c of classes) {
+            let school = await School.findOne({ where: { id: c.schoolId } });
+            schools.push(school);
+        }
+
+        console.log(subjects);
+        console.log(classes);
+        console.log(schools);
+
+        return res.render("teacher-home", { user, subjects, classes, schools });
     },
-    renderTeacherHome: async (req, res) => {
-        // GET TEACHER DATA FROM DB,
-        // AND THEN...
-        return res.render("teacher-home");
-    },
-    renderGuardianHome: async (req, res) => {
-        // GET GUARDIAN DATA FROM DB,
-        // AND THEN...
-        return res.render("guardian-home");
-    },
-    register: (req, res) => {
-        return req.query.usuario == "professor" ?
-            res.redirect("/professor/cadastrar") :
-            res.redirect("/responsavel/cadastrar");
-    },
-    renderTeacherRegistrationForm: (req, res) => {
+    renderRegistrationForm: (req, res) => {
         res.render("register-teacher");
     },
-    renderGuardianRegistrationForm: (req, res) => {
-        res.render("register-guardian");
-    },
-    registerTeacher: async (req, res, next) => {
-
+    registerTeacher: async (req, res) => {
         // CREATE USER
         const { forename, surname, email, phone, password } = req.body;
-        let picture;
-        req.file ? picture = req.file.filename : picture = null;
+        const picture = req.file ? req.file.filename : null;
 
-        let invalidEmail = await User.findOne({ where: { email } });
-        if (invalidEmail) {
-            return res.send(`O email ${email} já está cadastrado!`)
-        }
         const user = await User.create(
             {
-                forename,
-                surname,
-                email,
+                forename: forename.toUpperCase(),
+                surname: surname.toUpperCase(),
+                email: email.toUpperCase(),
                 phone,
                 password: bcrypt.hashSync(password, saltRounds),
                 picture
@@ -115,12 +87,12 @@ module.exports = {
                 thisClass => thisClass.includes(`school${i + 1}`)
             );
             for (aClass of thisSchoolClasses) {
-                let lvl = req.body[aClass][2].split("-"); // ex. return [ "Ensino Fundamental ", " 6º ano" ]
+                let lvl = req.body[aClass][1].split("-"); // ex. return [ "Ensino Fundamental ", " 6º ano" ]
                 classesList.push(
                     {
                         schoolId: schools[i].id, // ASSOCIATE CLASSES TO A SCHOOL
-                        code: req.body[aClass][0],
-                        year: req.body[aClass][1],
+                        code: req.body[aClass][2],
+                        year: req.body[aClass][0],
                         levelOfEducation: lvl[0].trim(),
                         grade: lvl[1].trim()
                     }
@@ -165,6 +137,14 @@ module.exports = {
                 thisClassStudents.push(req.body[key]);
             }
             for (student of thisClassStudents) { // array of arrays
+
+                // VALIDATE STUDENTS
+                let registeredStudent = await Student.findOne({ where: { name: student[1].trim() } });
+                if (registeredStudent) {
+                    return res.render("register-teacher", { errors: ["Cadastre novos alunos."] })
+                }
+
+                // CREATE STUDENTS
                 let newStudent = await Student.create(
                     {
                         name: student[1].trim()
@@ -209,25 +189,30 @@ module.exports = {
                 }
             }
         }
-        // SET A SESSION FOR THE USER
+        // SET A SESSION FOR THE TEACHER USER
         req.session.user = user;
         // AND REDIRECT HOME
         return res.redirect("/professor/home");
     },
-    registerGuardian: async (req, res, next) => {
-        // ENCRYPT PASSWORD,
-        // SAVE DATA IN DB,
-        // SET A SESSION,
-        // AND THEN...
-        return res.redirect("/responsavel/home");
+    renderAttendanceSheet: (req, res) => {
+        return res.render("attendance");
     },
-    renderTeacherUpdateForm: async (req, res) => {
+    recordAttendances: (req, res) => {
+
+    },
+    renderGradeBook: (req, res) => {
+        return res.render("set-notes");
+    },
+    recordGrades: (req, res) => {
+
+    },
+    renderRecordBook: (req, res) => {
+        return res.render('daily');
+    },
+    renderUpdateForm: async (req, res) => {
         // LOAD USER FROM DB
         // PASS OBJECT USER INTO RENDER METHOD
         return res.render("update-teacher");
-    },
-    renderGuardianUpdateForm: async (req, res) => {
-
     },
     updateTeacher: async (req, res, next) => {
         // GET REQ.BODY CONTENT
@@ -241,9 +226,6 @@ module.exports = {
         //     }
         // });
     },
-    updateGuardian: async (req, res, next) => {
-
-    },
     deleteTeacher: async (req, res) => {
         // RETRIEVE USER ID,
         // AND DELETE ONLY TEACHER USER TYPE
@@ -256,33 +238,4 @@ module.exports = {
         //     }
         // );
     },
-    deleteGuardian: async (req, res) => {
-        // RETRIEVE USER ID,
-        // AND DELETE ONLY GUARDIAN USER TYPE
-        // OR DELETE USER FROM DB
-        // const result = await User.destroy(
-        //     {
-        //         where: {
-
-        //         }
-        //     }
-        // );
-    },
-    renderGradeBook: (req, res) => {
-        return res.render("set-notes");
-    },
-    recordGrades: (req, res) => {
-
-    },
-    renderAttendanceSheet: async (req, res) => {
-        let student = await Student.findAll()
-        return res.render("attendance", {student});
-    },
-    recordAttendances: (req, res) => {
-
-    },
-    renderRecordBook: async (req, res) => {
-        let student = await Student.findAll()
-        return res.render('daily', {student});
-    }
 };
