@@ -90,8 +90,8 @@ module.exports = {
 
         const user = await User.create(
             {
-                forename: forename.toUpperCase(),
-                surname: surname.toUpperCase(),
+                forename: forename,
+                surname: surname,
                 email: email.toLowerCase(),
                 phone: validPhone,
                 password: bcrypt.hashSync(password, saltRounds),
